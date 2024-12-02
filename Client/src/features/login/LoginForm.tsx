@@ -23,16 +23,17 @@ export default function LoginForm() {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify({ email: formValue.email, password: formValue.password })
+      body: JSON.stringify(formValue)
     }
     try {
 
       const response = await fetch('http://localhost:5263/v1/api/Account/login', requestOpts);
+      const res = await response.json();
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
-      const stream = response.body.pipeThrough(new TextDecoderStream());
-      console.log(stream);
+      console.log(res.email);
+      console.log(res.token);
     } catch (error) {
       console.log(error);
     }
@@ -94,5 +95,4 @@ export default function LoginForm() {
     </Container>
   )
 }
-
 

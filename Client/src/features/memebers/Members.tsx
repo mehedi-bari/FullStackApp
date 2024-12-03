@@ -15,7 +15,7 @@ export default function Member() {
     }
     return (
         <Typography variant="h2">
-          Member 
+          Member  Only
         </Typography>
     )
 }

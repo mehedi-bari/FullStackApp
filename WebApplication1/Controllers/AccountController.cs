@@ -27,9 +27,8 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult<PostUserLoginResponse>> Login([FromBody] PostLoginUserRequest request)
         {
             if (request.Email == null) return Unauthorized();
-            var user = await _userManager.FindByNameAsync(request.Email);
-            if (user == null || request.Password ==null ||  !await _userManager.CheckPasswordAsync(user, request.Password)) return Unauthorized();
-            if (user == null) return Unauthorized();
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null || request.Password == null || !await _userManager.CheckPasswordAsync(user, request.Password)) return Unauthorized();
             return new PostUserLoginResponse
             {
                 Email = request.Email,
@@ -56,7 +55,6 @@ namespace WebApplication1.Controllers
         [HttpPost("currentUser")]
         public async Task<ActionResult<PostUserLoginResponse>> GetCurrentUser()
         {
-            Console.WriteLine("dsj");
             return StatusCode(200);
         }
     }

@@ -17,6 +17,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { List, ListItem, Switch } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { ShoppingBag } from '@mui/icons-material';
+import { jwtDecode } from 'jwt-decode';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -90,6 +91,10 @@ export default function PrimarySearchAppBar({darkMode, handleThemeChange}: prop)
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleLogOut = ( (e) => {
+    localStorage.removeItem('authToken');
+    e.toggleDrawer();
+  })
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -103,28 +108,54 @@ export default function PrimarySearchAppBar({darkMode, handleThemeChange}: prop)
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem component={NavLink} to={'/register'}>New User</MenuItem>    
-      <MenuItem component={NavLink} to={'/login'}>Log in</MenuItem>    
-    </Menu>
-  );
+    // localStorage.removeItem('authToken');
+    const token = localStorage.getItem('authToken');
+    const menuId = 'primary-search-account-menu';
+    let renderMenu;
+    let decoded;
+    if (token) decoded = jwtDecode(token);
+    if (decoded) {
+          renderMenu = (
+          <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            id={menuId}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+          >
+            <MenuItem component={NavLink} to={'/login'} onClick={handleLogOut}>Log Out</MenuItem>    
+          </Menu>
+        )
+        } else{
+          renderMenu = (
+            <Menu
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              id={menuId}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={isMenuOpen}
+              onClose={handleMenuClose}
+            >
+              <MenuItem component={NavLink} to={'/register'}>New User</MenuItem>    
+              <MenuItem component={NavLink} to={'/login'} onClick={handleLogOut}>Log in</MenuItem>    
+            </Menu>
+          )
+        }
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (

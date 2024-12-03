@@ -6,6 +6,7 @@ using WebApplication1.Mappers;
 using WebApplication1.Contract.Response;
 using WebApplication1.Services;
 using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace WebApplication1.Controllers
 {
@@ -54,6 +55,7 @@ namespace WebApplication1.Controllers
         [HttpPost("currentUser")]
         public async Task<ActionResult<PostUserLoginResponse>> GetCurrentUser()
         {
+            Console.WriteLine("dsj");
             return StatusCode(200);
         }
     }

@@ -7,6 +7,7 @@ import AboutPage from "../features/about/AboutPage";
 import ContactPage from "../features/contact/ContactPage";
 import RegisterForm from "../features/registration/RegisterForm";
 import LoginForm from "../features/login/LoginForm";
+import Member from "../features/memebers/Members";
 
 export const router = createBrowserRouter([
     {
@@ -19,7 +20,8 @@ export const router = createBrowserRouter([
             { path: 'about', element: <AboutPage/> },
             { path: 'contact', element: <ContactPage /> },
             { path: 'register', element: <RegisterForm /> },
-            { path: 'login', element: <LoginForm />}
+            { path: 'login', element: <LoginForm />},
+            { path: 'member', element: <Member/> },
         ]
     }
 ])

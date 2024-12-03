@@ -27,7 +27,8 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult<PostUserLoginResponse>> Login([FromBody] PostLoginUserRequest request)
         {
             if (request.Email == null) return Unauthorized();
-            var user = await _userManager.FindByEmailAsync(request.Email);
+            var user = await _userManager.FindByNameAsync(request.Email);
+            if (user == null || request.Password ==null ||  !await _userManager.CheckPasswordAsync(user, request.Password)) return Unauthorized();
             if (user == null) return Unauthorized();
             return new PostUserLoginResponse
             {

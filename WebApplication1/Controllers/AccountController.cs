@@ -7,6 +7,8 @@ using WebApplication1.Contract.Response;
 using WebApplication1.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+//using System.Web.Http;
 
 namespace WebApplication1.Controllers
 {
@@ -37,7 +39,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> Register(PostRegisterRequest request)
+        public async Task<ActionResult> Register([FromBody] PostRegisterRequest request)
         {
             var user = _userMapper.Map(request);
             if (user == null) return Unauthorized();
@@ -45,8 +47,11 @@ namespace WebApplication1.Controllers
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
+                {
+                    if (error.Code == "DuplicateUserName") return Conflict(new { message = "Email has been taken" });
                     ModelState.AddModelError(error.Code, error.Description);
-                return ValidationProblem();
+                }
+                return ValidationProblem(ModelState);
             }
             await _userManager.AddToRoleAsync(user, "Member");
             return StatusCode(201);

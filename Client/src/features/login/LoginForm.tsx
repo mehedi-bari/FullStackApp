@@ -15,8 +15,14 @@ export default function LoginForm() {
             mode: "onTouched",
         });
     
+    function timeout(delay: number) {
+      return new Promise( res => setTimeout(res, delay) );
+   }
     async function errorState() {
-        toast.warning("Invalid Email/Password");
+      toast.warning("Invalid Email/Password");
+  }
+    async function successState() {
+      toast.success("Succes! Welcome!");
     }
     const navigate = useNavigate();
     async function sendResponse(data : FieldValues) {
@@ -33,8 +39,10 @@ export default function LoginForm() {
             const res = await response.json();
             if (!response.ok) {
                 throw new Error(`Response status: ${response.status}`);
-            }
+          }
             localStorage.setItem('authToken', res.token);
+            await successState();
+            await timeout(2000);
             navigate("/member");
         } catch (err) {
             console.warn(err);
@@ -62,7 +70,16 @@ export default function LoginForm() {
               id="email"
               label="Email Address"
               autoComplete="email"
-              {...register("email", { required: "Email is required" })}
+              {...register("email", { required: "email is required",
+                                        minLength: {
+                                            value: 4,
+                                            message: "Minimum Length is 4"
+                                        },
+                                        maxLength : {
+                                            value: 32,
+                                            message: "Maximum Length is 32"
+                                        },
+               })}
               helperText={errors.email?.message?.toString()}
               error={!!errors.email}
             />

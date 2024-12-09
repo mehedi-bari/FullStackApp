@@ -91,10 +91,13 @@ export default function PrimarySearchAppBar({darkMode, handleThemeChange}: prop)
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+
   const handleLogOut = ( (e) => {
     localStorage.removeItem('authToken');
     e.toggleDrawer();
   })
+
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -108,7 +111,6 @@ export default function PrimarySearchAppBar({darkMode, handleThemeChange}: prop)
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-    // localStorage.removeItem('authToken');
     const token = localStorage.getItem('authToken');
     const menuId = 'primary-search-account-menu';
     let renderMenu;

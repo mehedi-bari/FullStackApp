@@ -5,9 +5,9 @@ import Catalog from "../features/catalog/Catalog";
 import ProductDetails from "../features/catalog/ProductDetails";
 import AboutPage from "../features/about/AboutPage";
 import ContactPage from "../features/contact/ContactPage";
-import RegisterForm from "../features/registration/RegisterForm";
 import LoginForm from "../features/login/LoginForm";
 import Member from "../features/memebers/Members";
+import RegisterForm from "../features/registration/RegistrationForm";
 
 export const router = createBrowserRouter([
     {
